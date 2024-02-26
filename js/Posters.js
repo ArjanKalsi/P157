@@ -1,50 +1,73 @@
-AFRAME.registerComponent("poster", {
-  init: function () {
-    this.placesContainer = this.el;
-    
+AFRAME.registerComponent("comics-posters", {
+  init: function() {
+    this.postersContainer = this.el;
+    this.posters();
   },
 
-  createCards: function () {
-    const thumbNailsRef = [
+  posters: function() {
+    const postersRef = [
       {
-        id: "taj-mahal",
-        title: "Taj Mahal",
-        url: "./assets/thumbnails/taj_mahal.png",
+        id: "superman",
+        url: "./assets/posters/superman-poster.jpg"
       },
       {
-        id: "budapest",
-        title: "Budapest",
-        url: "./assets/thumbnails/budapest.jpg",
+        id: "spiderman",
+        url: "./assets/posters/spiderman-poster.jpg"
       },
 
       {
-        id: "eiffel-tower",
-        title: "Eiffel Tower",
-        url: "./assets/thumbnails/eiffel_tower.jpg",
+        id: "captain-aero",
+        url: "./assets/posters/captain-aero-poster.jpg"
       },
       {
-        id: "new-york-city",
-        title: "New York City",
-        url: "./assets/thumbnails/new_york_city.png",
-      },
+        id: "outer-space",
+        url: "./assets/posters/outer-space-poster.jpg"
+      }
     ];
     let prevoiusXPosition = -60;
 
-    for (var item of thumbNailsRef) {
+    for (var item of postersRef) {
       const posX = prevoiusXPosition + 25;
       const posY = 10;
       const posZ = -40;
       const position = { x: posX, y: posY, z: posZ };
       prevoiusXPosition = posX;
 
-      // Border Element
-      
-      // Thumbnail Element
-     
-      // Title Text Element
-      
-      this.placesContainer.appendChild(borderEl);
+      const borderEl = this.createBorder(position, item.id);
+
+      const poster = this.createPoster(item);
+      borderEl.appendChild(poster);
+
+      this.postersContainer.appendChild(borderEl);
     }
   },
-  
+  createBorder: function(position, id) {
+    const entityEl = document.createElement("a-entity");
+    entityEl.setAttribute("id", id);
+    entityEl.setAttribute("visible", true);
+    entityEl.setAttribute("geometry", {
+      primitive: "plane",
+      width: 22,
+      height: 40
+    });
+
+    entityEl.setAttribute("position", position);
+    entityEl.setAttribute("material", { color: "#fff" });
+
+    return entityEl;
+  },
+  createPoster: function(item) {
+    const entityEl = document.createElement("a-entity");
+    entityEl.setAttribute("visible", true);
+    entityEl.setAttribute("geometry", {
+      primitive: "plane",
+      width: 20,
+      height: 28
+    });
+
+    entityEl.setAttribute("position", { x: 0, y: 5, z: 0.1 });
+    entityEl.setAttribute("material", { src: item.url });
+
+    return entityEl;
+  }
 });
